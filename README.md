@@ -320,6 +320,9 @@ docker container run --name nginx-dev -d -p 8080:80 -e username=Davidson formati
 
 # Check the logs of the container to see your custom message
 docker container logs nginx-dev
+
+# You should see the message with your name
 ```
 
-- Go to `http://localhost:8080`
+- Go to `http://localhost:8080`, you should see the HTML home page with the environment variable value you provided
+
