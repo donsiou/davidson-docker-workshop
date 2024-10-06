@@ -141,9 +141,9 @@ docker container run --name my-nginx -d -p 8080:80 nginx:latest
 - **Question 10** : How can I customize the nginx HTML home page ?
 
 
-## Customizing containers
+## Customizing your application
 
-### Manual customization
+### Customizing the container
 
 - **Exercice** : nginx version 1.27.2-alpine
   - Search for the nginx image with the tag 1.27.2-alpine on Dockerhub
@@ -164,5 +164,58 @@ echo "<h1>Hello from Davidson Formation<h1>" > index.html
 
 - Go to `http://localhost:8080`, you should see the new HTML home page
 
+- **Exercice**: 
+  - Delete the container and run it again
+  - try to access the Nginx HTML home page
+  - What happens ? why ?
+  
+- **Question 12** : How can I persist the changes made in the container ?
+- **Exercice**: Delete running nginx container: my-nginx
 
+### Customizing the image
+
+- This is the [Dockerfile](tps/tp1.0/Dockerfile) to create a custom image with the Nginx HTML home page modified
+- Build the image with the name formation-nginx and tag 1.0
+  
+```bash
+docker image build -t formation-nginx:1.0 tps/tp1.0
+```
+
+- Run the container with the custom image
+
+```bash
+docker container run --name my-nginx -d -p 8080:80 formation-nginx:1.0
+```
+
+- Go to `http://localhost:8080`, you should see the new HTML home page
+
+- **Question 13** : How can I share the custom image with others ?
+
+### Publishing your custom image
+
+- Create an account on [Dockerhub](https://hub.docker.com/)
+- Login to Dockerhub
+```bash
+docker login docker.io
+# Enter your Dockerhub credentials (username and password)
+```
+
+- Tag the custom image with your Dockerhub username
+
+```bash
+export DOCKERHUB_USERNAME=donsiou
+docker image tag formation-nginx:1.0 docker.io/$DOCKERHUB_USERNAME/formation-nginx:1.0
+```
+
+- Push the custom image to Dockerhub
+
+```bash
+docker image push docker.io/$DOCKERHUB_USERNAME/formation-nginx:1.0
+```
+
+- Go to [Dockerhub](https://hub.docker.com/), you should see the custom image
+
+
+
+## Working with dockerfile
 
