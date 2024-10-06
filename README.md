@@ -174,11 +174,13 @@ echo "<h1>Hello from Davidson Formation<h1>" > index.html
 
 ### Customizing the image
 
-- This is the [Dockerfile](tps/tp1.0/Dockerfile) to create a custom image with the Nginx HTML home page modified
+- This is the [Dockerfile](tps/1.0/Dockerfile) to create a custom image with the Nginx HTML home page modified
+- **Exercice**: Go to the [Dockerfile](tps/1.0/Dockerfile) and change the Name to your name
+
 - Build the image with the name formation-nginx and tag 1.0
   
 ```bash
-docker image build -t formation-nginx:1.0 tps/tp1.0
+docker image build -t formation-nginx:1.0 tps/1.0
 ```
 
 - Run the container with the custom image
@@ -217,5 +219,107 @@ docker image push docker.io/$DOCKERHUB_USERNAME/formation-nginx:1.0
 
 
 
-## Working with dockerfile
+## Developing with Docker
 
+### V2.0: Homepage as a file
+
+**Goal**: Instead of hardcoding the HTML content in the Dockerfile, we will use a file to store the content
+
+- We will use the [COPY](https://docs.docker.com/reference/dockerfile/#copy) instruction to copy [the index.html](tps/2.0/index.html) file to the container in the [Dockerfile](tps/2.0/Dockerfile)
+
+#### V2.0: Development
+
+- **Exercice**: 
+  - Go to the file [tps/2.0/index.html](tps/2.0/index.html), and change the Name to your name
+  - Create a new image formation-nginx with the tag 2.0
+  - Solution : [Solutions](Solutions.md#v20-development)
+
+#### V2.0: Testing
+
+- **Exercice**: 
+  - Delete the running container my-nginx
+  - Run the container with the new image formation-nginx:2.0 and name nginx-dev
+  - Go to `http://localhost:8080`, you should see the new HTML home page
+  - Solution : [Solutions](Solutions.md#v20-testing)
+
+#### V2.0: Publishing
+
+- **Exercice**: 
+  - Tag the custom image with your Dockerhub username
+  - Push the custom image to Dockerhub
+  - Solution : [Solutions](Solutions.md#v20-publishing)
+
+- Run the container with the published image from Dockerhub
+
+```bash
+# The port 8090 is used to avoid conflict with the previous container 
+docker container run --name nginx-prod -d -p 8090:80 $DOCKERHUB_USERNAME/formation-nginx:2.0
+```
+
+- Go to `http://localhost:8090`, you should see the new HTML home page
+
+### V3.1: Define the Name with an environment variable
+
+**Goal**: Instead of hardcoding the Name in the index.html file, we will use an environment variable to set the Name
+
+- We will use the [ENV](https://docs.docker.com/reference/dockerfile/#env) instruction to set the Name environment variable in the [Dockerfile](tps/3.1/Dockerfile)
+- We will use envsubst to replace the Name in the index.html file
+- We will use -e option to set the Name environment variable when running the container
+
+#### V3.1: Development
+
+- **Exercice**: 
+  - Modify the [Dockerfile](tps/3.1/Dockerfile) to set the username environment variable
+  - Create a new image formation-nginx with the tag 3.1
+
+#### V3.1: Testing
+
+- **Exercice**: 
+  - Delete the running container nginx-dev
+  - Run the container with the new image formation-nginx:3.1 and name nginx-dev
+  - Go to `http://localhost:8080`, you should see the new HTML home page with your name
+
+- You can also set the Name environment variable when running the container
+
+```bash
+# Delete the running container nginx-dev
+docker container rm -f nginx-dev
+
+# Run the container with the new image formation-nginx:3.1 and name nginx-dev
+docker container run --name nginx-dev -d -p 8080:80 -e username=Davidson formation-nginx:3.1
+```
+
+- Go to `http://localhost:8080`
+
+- **Question**: Why the provided value is not displayed in the HTML page ?
+- **Question**: How can I fix this ?
+
+### V3.2: Dynamic content with entrypoint
+
+**Goal**: In order to define the Name dynamically, The HTML template must be rendred in the runtime, and not in the build time, we will achive this by modifying the entrypoint script
+
+- We will use the [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) and  [CMD](https://docs.docker.com/reference/dockerfile/#cmd) instructions to run the entrypoint script in the [Dockerfile](tps/3.2/Dockerfile)
+
+#### V3.2: Development
+
+- **Exercice**: 
+  - Modify the [Dockerfile](tps/3.2/Dockerfile) to set the username environment variable
+  - Modify the [entrypoint.sh](tps/3.2/entrypoint.sh) to add a message with the your name
+  - Create a new image formation-nginx with the tag 3.2
+  
+#### V3.2: Testing
+
+- Run the container with the new image and define environment variable username
+
+```bash
+# Delete the running container nginx-dev
+docker container rm -f nginx-dev
+
+# Run the container with the new image formation-nginx:3.2 and name nginx-dev
+docker container run --name nginx-dev -d -p 8080:80 -e username=Davidson formation-nginx:3.2
+
+# Check the logs of the container to see your custom message
+docker container logs nginx-dev
+```
+
+- Go to `http://localhost:8080`
