@@ -1,6 +1,7 @@
 # Davidson Formation - Docker Workshop
 Resources for Davidson Formation workshop
 
+![Docker](https://miro.medium.com/v2/resize:fit:1400/0*G82uZfX0ozIih3-_)
 
 ## First container
 
