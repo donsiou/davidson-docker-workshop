@@ -1,5 +1,5 @@
 # Use the Alpine-based Nginx image version 1.27.2 as the base image
-FROM nginx:1.27.2-alpine
+FROM nginx:1.28.0-alpine
 
 # Set an environment variable 'username' with a default value
 ENV username="CHANGE_TO_YOUR_NAME"

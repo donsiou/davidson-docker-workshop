@@ -153,9 +153,9 @@ docker container run --name my-nginx -d -p 8080:80 nginx:latest
 
 ### Customizing the container
 
-- **Exercice** : nginx version 1.27.2-alpine
-  - Search for the nginx image with the tag 1.27.2-alpine on Dockerhub
-  - Run the container with the tag 1.27.2-alpine
+- **Exercice** : nginx version 1.28.0-alpine
+  - Search for the nginx image with the tag 1.28.0-alpine on Dockerhub
+  - Run the container with the tag 1.28.0-alpine
     - Detach mode
     - Port mapping: 8080:80
     - Name: my-nginx
