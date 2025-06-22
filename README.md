@@ -163,11 +163,12 @@ docker container run --name my-nginx -d -p 8080:80 nginx:latest
   - Open a shell in the container
   - [Solution](https://github.com/donsiou/davidson-docker-workshop/blob/main/solutions/run_and_expose_container.md)
 
--  Modify the Nginx HTML home page (Make sure you are in the container shell)
+-  Modify the Nginx HTML home page (**Make sure you are in the container shell**; if not, run `docker container exec -it my-nginx /bin/sh`)
 
 ```bash
 cd /usr/share/nginx/html
 echo "<h1>Hello from Davidson Formation<h1>" > index.html
+exit
 ```
 
 - Go to `http://localhost:8080`, you should see the new HTML home page
@@ -195,6 +196,7 @@ docker image build -t formation-nginx:1.0 tps/1.0
 - Run the container with the custom image
 
 ```bash
+cd davidson-docker-workshop
 docker container run --name my-nginx -d -p 8080:80 formation-nginx:1.0
 ```
 
