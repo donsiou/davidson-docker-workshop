@@ -1,8 +1,9 @@
-# Davidson Formation - Docker Workshop
+# Docker Workshop
 Resources for Davidson Formation workshop
 
 ![Docker](https://miro.medium.com/v2/resize:fit:1400/0*G82uZfX0ozIih3-_)
 
+---
 ## First container
 
 - Launch your first container
@@ -19,6 +20,7 @@ docker run hello-world
 
 - **Question 1** : Where does the image hello-world come from ?
 
+---
 ## Images registries
 
 ### Discover Dockerhub
@@ -44,19 +46,20 @@ docker run hello-world
 - **Question 4** : Which tag should I use ?
 - **Question 5** : In the docker run in [First container](#first-container) section, we didnt specify tags (hello-world), how does it work ? 
 
+---
 ## Containers basics
 
 ### Launch Nginx container
 
 - **Exercice** Launch a container with the nginx image and the latest tag
   - Hint : Use the command `docker container run` without pulling the image, what happens ?
-  - [Solution](Solutions.md#launch-nginx-container)
+  - [Solution](https://github.com/donsiou/davidson-docker-workshop/blob/main/solutions/launch_container.md)
 
 - This will block the terminal, to stop the container, use `Ctrl+C`
 
 - Run the container in detached mode
   - Hint : Use the `-d` option ( [Detached mode](https://docs.docker.com/reference/cli/docker/container/run/#detach) )
-  - [Solution](Solutions.md#run-nginx-container-in-detached-mode)
+  - [Solution](https://github.com/donsiou/davidson-docker-workshop/blob/main/solutions/run_detached_mode.md)
 
 - List the running containers
 
@@ -74,6 +77,9 @@ docker container ls
 
 ```bash
 docker container stop <CHANGE_ME_WITH_CONTAINER_ID>
+````
+
+```bash
 docker container rm <CHANGE_ME_WITH_CONTAINER_ID>
 ```
 
@@ -86,7 +92,7 @@ docker container run --name my-nginx -d nginx:latest
 - **Exercice** : List the running containers and check the name, it should be my-nginx
 - **Question 8** : How can I verify that nginx is running ?
 
-
+---
 ### Executing commands in a running container
 
 #### Executing one command
@@ -120,13 +126,14 @@ exit
 ```
 
 - **Question 9** : How can I access Nginx HTML home page from my host ?
+---
 
 #### Port mapping
 
 - **Exercice** : Clean up the running nginx container
   - Stop and remove the running container
   - Verify that the container has been removed
-  - [Solution](Solutions.md#clean-up-the-running-nginx-container)
+  - [Solution](https://github.com/donsiou/davidson-docker-workshop/blob/main/solutions/clean_up.md)
   
 - Run the container with the `-p` option to map the port 8080 of the host to the port 80 of the container
   
@@ -141,7 +148,7 @@ docker container run --name my-nginx -d -p 8080:80 nginx:latest
 
 - **Question 10** : How can I customize the nginx HTML home page ?
 
-
+---
 ## Customizing your application
 
 ### Customizing the container
@@ -154,9 +161,9 @@ docker container run --name my-nginx -d -p 8080:80 nginx:latest
     - Name: my-nginx
   - Go to `http://localhost:8080`
   - Open a shell in the container
-  - [Solution](Solutions.md#running-an-alpine-container)
+  - [Solution](https://github.com/donsiou/davidson-docker-workshop/blob/main/solutions/run_and_expose_container.md)
 
--  Modify the Nginx HTML home page
+-  Modify the Nginx HTML home page (Make sure you are in the container shell)
 
 ```bash
 cd /usr/share/nginx/html
@@ -172,11 +179,12 @@ echo "<h1>Hello from Davidson Formation<h1>" > index.html
   
 - **Question 12** : How can I persist the changes made in the container ?
 - **Exercice**: Delete running nginx container: my-nginx
+---
 
 ### Customizing the image
 
-- This is the [Dockerfile](tps/1.0/Dockerfile) to create a custom image with the Nginx HTML home page modified
-- **Exercice**: Go to the [Dockerfile](tps/1.0/Dockerfile) and change the Name to your name
+- This is the [Dockerfile](https://github.com/donsiou/davidson-docker-workshop/tree/main/tps/1.0/Dockerfile) to create a custom image with the Nginx HTML home page modified
+- **Exercice**: Go to the `tps/1.0/Dockerfile` and change the Name to your name
 
 - Build the image with the name formation-nginx and tag 1.0
   
@@ -193,11 +201,13 @@ docker container run --name my-nginx -d -p 8080:80 formation-nginx:1.0
 - Go to `http://localhost:8080`, you should see the new HTML home page
 
 - **Question 13** : How can I share the custom image with others ?
+---
 
 ### Publishing your custom image
 
 - Create an account on [Dockerhub](https://hub.docker.com/)
 - Login to Dockerhub
+
 ```bash
 docker login docker.io
 # Enter your Dockerhub credentials (username and password)
@@ -219,21 +229,21 @@ docker image push docker.io/$DOCKERHUB_USERNAME/formation-nginx:1.0
 - Go to [Dockerhub](https://hub.docker.com/), you should see the custom image
 
 
-
+---
 ## Developing with Docker
 
 ### V2.0: Homepage as a file
 
 **Goal**: Instead of hardcoding the HTML content in the Dockerfile, we will use a file to store the content
 
-- We will use the [COPY](https://docs.docker.com/reference/dockerfile/#copy) instruction to copy [the index.html](tps/2.0/index.html) file to the container in the [Dockerfile](tps/2.0/Dockerfile)
+- We will use the [COPY](https://docs.docker.com/reference/dockerfile/#copy) instruction to copy `tps/2.0/index.html` file to the container in the `tps/2.0/Dockerfile`
 
 #### V2.0: Development
 
 - **Exercice**: 
-  - Go to the file [tps/2.0/index.html](tps/2.0/index.html), and change the Name to your name
+  - Go to the file `tps/2.0/index.html`, and change the Name to your name
   - Create a new image formation-nginx with the tag 2.0
-  - Solution : [Solutions](Solutions.md#v20-development)
+  - Solution : [Solutions](https://github.com/donsiou/davidson-docker-workshop/blob/main/solutions/app_dev.md)
 
 #### V2.0: Testing
 
@@ -241,14 +251,14 @@ docker image push docker.io/$DOCKERHUB_USERNAME/formation-nginx:1.0
   - Delete the running container my-nginx
   - Run the container with the new image formation-nginx:2.0 and name nginx-dev
   - Go to `http://localhost:8080`, you should see the new HTML home page
-  - Solution : [Solutions](Solutions.md#v20-testing)
+  - Solution : [Solutions](https://github.com/donsiou/davidson-docker-workshop/blob/main/solutions/app_test.md)
 
 #### V2.0: Publishing
 
 - **Exercice**: 
   - Tag the custom image with your Dockerhub username
   - Push the custom image to Dockerhub
-  - Solution : [Solutions](Solutions.md#v20-publishing)
+  - Solution : [Solutions](https://github.com/donsiou/davidson-docker-workshop/blob/main/solutions/app_publish.md)
 
 - Run the container with the published image from Dockerhub
 
@@ -258,19 +268,20 @@ docker container run --name nginx-prod -d -p 8090:80 $DOCKERHUB_USERNAME/formati
 ```
 
 - Go to `http://localhost:8090`, you should see the new HTML home page
+---
 
 ### V3.1: Define the Name with an environment variable
 
 **Goal**: Instead of hardcoding the Name in the index.html file, we will use an environment variable to set the Name
 
-- We will use the [ENV](https://docs.docker.com/reference/dockerfile/#env) instruction to set the Name environment variable in the [Dockerfile](tps/3.1/Dockerfile)
+- We will use the [ENV](https://docs.docker.com/reference/dockerfile/#env) instruction to set the Name environment variable in the `tps/3.1/Dockerfile`
 - We will use envsubst to replace the Name in the index.html file
 - We will use -e option to set the Name environment variable when running the container
 
 #### V3.1: Development
 
 - **Exercice**: 
-  - Modify the [Dockerfile](tps/3.1/Dockerfile) to set the username environment variable
+  - Modify the `tps/3.1/Dockerfile` to set the username environment variable
   - Create a new image formation-nginx with the tag 3.1
 
 #### V3.1: Testing
@@ -294,18 +305,19 @@ docker container run --name nginx-dev -d -p 8080:80 -e username=Davidson formati
 
 - **Question**: Why the provided value is not displayed in the HTML page ?
 - **Question**: How can I fix this ?
+---
 
 ### V3.2: Dynamic content with entrypoint
 
 **Goal**: In order to define the Name dynamically, The HTML template must be rendred in the runtime, and not in the build time, we will achive this by modifying the entrypoint script
 
-- We will use the [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) and  [CMD](https://docs.docker.com/reference/dockerfile/#cmd) instructions to run the entrypoint script in the [Dockerfile](tps/3.2/Dockerfile)
+- We will use the [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) and  [CMD](https://docs.docker.com/reference/dockerfile/#cmd) instructions to run the entrypoint script in the `tps/3.2/Dockerfile`
 
 #### V3.2: Development
 
 - **Exercice**: 
-  - Modify the [Dockerfile](tps/3.2/Dockerfile) to set the username environment variable
-  - Modify the [entrypoint.sh](tps/3.2/entrypoint.sh) to add a message with the your name
+  - Modify the `tps/3.2/Dockerfile` to set the username environment variable
+  - Modify the `tps/3.2/entrypoint.sh` to add a message with the your name
   - Create a new image formation-nginx with the tag 3.2
   
 #### V3.2: Testing
@@ -326,4 +338,3 @@ docker container logs nginx-dev
 ```
 
 - Go to `http://localhost:8080`, you should see the HTML home page with the environment variable value you provided
-
